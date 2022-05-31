@@ -24,6 +24,10 @@ class Emprunts
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'emprunts')]
     private $idUser;
 
+    #[ORM\ManyToOne(targetEntity: Documents::class, inversedBy: 'emprunts')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $document;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,6 +65,18 @@ class Emprunts
     public function setIdUser(?User $idUser): self
     {
         $this->idUser = $idUser;
+
+        return $this;
+    }
+
+    public function getDocument(): ?Documents
+    {
+        return $this->document;
+    }
+
+    public function setDocument(?Documents $document): self
+    {
+        $this->document = $document;
 
         return $this;
     }

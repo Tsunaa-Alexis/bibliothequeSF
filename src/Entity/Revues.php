@@ -8,16 +8,15 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: RevuesRepository::class)]
 class Revues extends Documents
 {
-
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'string', length: 255)]
     private $periodicite;
 
-    public function getPeriodicite(): ?int
+    public function getPeriodicite(): ?string
     {
         return $this->periodicite;
     }
 
-    public function setPeriodicite(int $periodicite): self
+    public function setPeriodicite(string $periodicite): self
     {
         $this->periodicite = $periodicite;
 
