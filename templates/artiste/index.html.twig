@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ArtisteController!{% endblock %}
+
+{% block body %}
+<ul>
+    <li>Nom : {{artiste.nom}}</li>
+    <li>Prénom : {{artiste.prenom}}</li>
+    <li>Metiers :
+        <ul>
+            {% for metier in artiste.metier %}
+                <li>{{metier.nom}}</li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>Documents :
+        <ul>
+            {% for document in artiste.documents %}
+                <li><a href="{{ path('documentInfos', {'id': document.id}) }}">{{document.titre}}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+</ul>
+{% endblock %}

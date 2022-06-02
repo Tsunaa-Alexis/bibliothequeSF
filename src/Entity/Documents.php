@@ -30,6 +30,10 @@ class Documents
     #[ORM\OneToMany(mappedBy: 'document', targetEntity: Emprunts::class)]
     private $emprunts;
 
+    #[ORM\ManyToOne(targetEntity: Artiste::class, inversedBy: 'documents')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $Auteur;
+
     public function __construct()
     {
         $this->emprunts = new ArrayCollection();
@@ -104,6 +108,35 @@ class Documents
         }
 
         return $this;
+    }
+
+    public function getAuteur(): ?Artiste
+    {
+        return $this->Auteur;
+    }
+
+    public function setAuteur(?Artiste $Auteur): self
+    {
+        $this->Auteur = $Auteur;
+
+        return $this;
+    }
+
+    public function getMyDiscriminator()
+    {
+        $myDiscriminator = null;
+        switch (get_class($this)) {
+            case CD::class:
+                $myDiscriminator = "CD";
+                break;
+            case Livres::class:
+                $myDiscriminator = "Livres";
+                break;
+            case Revues::class:
+                $myDiscriminator = "Revues";
+                break;
+        }
+        return $myDiscriminator;
     }
 
 }

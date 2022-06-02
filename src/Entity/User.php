@@ -44,6 +44,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->emprunts = new ArrayCollection();
+        $this->dateInscription = time();
     }
 
     public function getId(): ?int

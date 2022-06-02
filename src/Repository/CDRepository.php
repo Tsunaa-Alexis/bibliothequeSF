@@ -39,6 +39,10 @@ class CDRepository extends ServiceEntityRepository
         }
     }
 
+    public function getFiveMostPopular(){
+        
+    }
+
 //    /**
 //     * @return CD[] Returns an array of CD objects
 //     */

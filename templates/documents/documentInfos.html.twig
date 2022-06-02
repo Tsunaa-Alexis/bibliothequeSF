@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DocumentsController!{% endblock %}
+
+{% block body %}
+<ul>
+    <li>Titre : {{document.titre}}</li>
+    <li>Description : {{document.description}}</li>
+    <li>Type : {{document.getMyDiscriminator}}</li>
+    <li>Auteur : <a href="{{ path('artiste', {'id': document.auteur.id}) }}">{{document.auteur.nom}} {{document.auteur.prenom}}<a></li>
+</ul>
+{% endblock %}

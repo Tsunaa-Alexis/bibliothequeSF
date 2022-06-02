@@ -24,9 +24,13 @@ class Artiste
     #[ORM\ManyToMany(targetEntity: Metier::class, inversedBy: 'artistes')]
     private $metier;
 
+    #[ORM\OneToMany(mappedBy: 'Auteur', targetEntity: Documents::class)]
+    private $documents;
+
     public function __construct()
     {
         $this->metier = new ArrayCollection();
+        $this->documents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -78,6 +82,36 @@ class Artiste
     public function removeMetier(Metier $metier): self
     {
         $this->metier->removeElement($metier);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Documents>
+     */
+    public function getDocuments(): Collection
+    {
+        return $this->documents;
+    }
+
+    public function addDocument(Documents $document): self
+    {
+        if (!$this->documents->contains($document)) {
+            $this->documents[] = $document;
+            $document->setAuteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocument(Documents $document): self
+    {
+        if ($this->documents->removeElement($document)) {
+            // set the owning side to null (unless already changed)
+            if ($document->getAuteur() === $this) {
+                $document->setAuteur(null);
+            }
+        }
 
         return $this;
     }

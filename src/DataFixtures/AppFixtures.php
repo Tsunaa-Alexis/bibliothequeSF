@@ -45,21 +45,23 @@ class AppFixtures extends Fixture
             $manager->persist($artiste);
         }
 
+        $manager->flush();
+
         //CD
         for($i = 0; $i < 5; $i++){
-            $cd = $this->setCD();
+            $cd = $this->setCD($manager);
             $manager->persist($cd);
         }
 
         //Livres
         for($i = 0; $i < 5; $i++){
-            $livre = $this->setLivres();
+            $livre = $this->setLivres($manager);
             $manager->persist($livre);
         }
 
         //Revues
         for($i = 0; $i < 5; $i++){
-            $revue = $this->setRevues();
+            $revue = $this->setRevues($manager);
             $manager->persist($revue);
         }
 
@@ -112,7 +114,7 @@ class AppFixtures extends Fixture
 
     }
 
-    private function setCD(){
+    private function setCD(ObjectManager $manager){
 
         $faker = FakerFactory::create('fr_FR');
 
@@ -122,11 +124,15 @@ class AppFixtures extends Fixture
         $cd->setDescription($faker->paragraph());
         $cd->setNbPistes(rand(1,30));
 
+        $arrayArtistes = $manager->getRepository(Artiste::class)->findAll();
+        $rand_keys = array_rand($arrayArtistes, 1);
+        $cd->setAuteur($arrayArtistes[$rand_keys]);
+
         return $cd;
 
     }
 
-    private function setLivres(){
+    private function setLivres(ObjectManager $manager){
 
         $faker = FakerFactory::create('fr_FR');
 
@@ -136,11 +142,15 @@ class AppFixtures extends Fixture
         $livre->setDescription($faker->paragraph());
         $livre->setNbPages(rand(35,1250));
 
+        $arrayArtistes = $manager->getRepository(Artiste::class)->findAll();
+        $rand_keys = array_rand($arrayArtistes, 1);
+        $livre->setAuteur($arrayArtistes[$rand_keys]);
+
         return $livre;
 
     }
 
-    private function setRevues(){
+    private function setRevues(ObjectManager $manager){
 
         $faker = FakerFactory::create('fr_FR');
 
@@ -151,6 +161,10 @@ class AppFixtures extends Fixture
         $revue->setEtat(rand(1,3));
         $revue->setDescription($faker->paragraph());
         $revue->setPeriodicite($arrayPeriodicite[rand(0,3)]);
+
+        $arrayArtistes = $manager->getRepository(Artiste::class)->findAll();
+        $rand_keys = array_rand($arrayArtistes, 1);
+        $revue->setAuteur($arrayArtistes[$rand_keys]);
 
         return $revue;
 
@@ -166,6 +180,7 @@ class AppFixtures extends Fixture
         $user->setPrenom($faker->firstName());
         $user->setNom($faker->lastName());
         $user->setDateInscription($faker->dateTimeBetween('-3 year', 'now')->getTimestamp());
+        $user->setRoles(array('ROLE_BIBLIOTHECAIRE'));
 
         return $user;
     }
