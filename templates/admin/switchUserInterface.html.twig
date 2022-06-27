@@ -1,0 +1,20 @@
+<li class="nav-item"> 
+    <form>
+        <select class="nav-link" id="switchUser">    
+            <option value="" selected>Aucun</option>        
+            {% for user in arrayUsers %}
+                <option value="{{ user.email }}">{{ user.prenom }}  {{ user.nom }}</option>
+            {% endfor %}
+        </select>  
+    </form>
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+
+            let userList = document.getElementById('switchUser');
+
+            userList.addEventListener('change', function(){
+                window.location.href = window.location.href+'?_switch_user='+this.value
+            })
+        })
+    </script>
+</li>

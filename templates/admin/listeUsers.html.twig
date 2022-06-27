@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration Users{% endblock %}
+
+{% block body %}
+<table class="table">
+    <thead>
+        <tr>
+            <td scope="col">email</td>
+            <td scope="col">prenom</td>
+            <td scope="col">nom</td>
+            <td scope="col">roles</td>
+            <td scope="col">dateInscription</td>
+            <td scope="col"></td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in arrayUsers %}
+            <tr>
+                <td>{{ user.email}}</td>
+                <td>{{ user.prenom}}</td>
+                <td>{{ user.nom}}</td>
+                <td>{{ user.roles | join(', ')}}</td>
+                <td>{{ user.dateInscription}}</td>
+                <td><a href="{{ path('admin_editUser', {'id': user.id}) }}">Edit</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    
+</table>
+{% endblock %}
+

@@ -55,6 +55,36 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $this->add($user, true);
     }
+    
+    /**
+     * getUser
+     *
+     * @param  mixed $name 
+     * @param  mixed $where
+     * @param  mixed $groupBy
+     * @param  mixed $order
+     * @param  mixed $maxResults
+     * @return void
+     */
+    public function getListOfUser(string $name = 'u',  ?array $parameters = array(), ?string $where = null, ?string $groupBy = null, ?string $order = null, ?int $maxResults = null){
+
+        $sqlRequest = $this->createQueryBuilder($name);
+
+        foreach($parameters as $index => $value){
+            $sqlRequest->setParameter($index, $value);
+        }
+
+        if(!empty($where)){ $sqlRequest->andWhere($where); }
+        if(!empty($order)){ $sqlRequest->orderBy($order); }
+        if(!empty($groupBy)){ $sqlRequest->groupBy($groupBy); }
+        if(!empty($maxResults)){ $sqlRequest->setMaxResults($maxResults); }
+
+        return $sqlRequest
+                   ->getQuery()
+                   ->getResult()
+               ;
+
+    }
 
 //    /**
 //     * @return User[] Returns an array of User objects
